@@ -1,0 +1,548 @@
+@import "tailwindcss";
+
+/* Custom CSS Variables - Light Mode */
+:root {
+  --color-bg: #fafafa;
+  --color-bg-alt: #f5f5f5;
+  --color-text: #1a1a1a;
+  --color-text-muted: #6b7280;
+  --color-accent: #3b82f6;
+  --color-accent-muted: #60a5fa;
+  --color-accent-glow: rgba(59, 130, 246, 0.15);
+  --color-border: #e5e7eb;
+  --color-charcoal: #374151;
+}
+
+/* Dark Mode */
+.dark {
+  --color-bg: #0f0f0f;
+  --color-bg-alt: #1a1a1a;
+  --color-text: #f5f5f5;
+  --color-text-muted: #9ca3af;
+  --color-accent: #60a5fa;
+  --color-accent-muted: #93c5fd;
+  --color-accent-glow: rgba(96, 165, 250, 0.2);
+  --color-border: #374151;
+  --color-charcoal: #d1d5db;
+}
+
+/* Base Styles */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Selection */
+::selection {
+  background-color: var(--color-accent);
+  color: white;
+}
+
+/* ============================================ */
+/* PARTICLE CANVAS */
+/* ============================================ */
+#particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  contain: strict;
+  content-visibility: auto;
+}
+
+/* ============================================ */
+/* THEME TOGGLE */
+/* ============================================ */
+.theme-toggle {
+  background: transparent;
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+  color: var(--color-text-muted);
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.theme-toggle:hover {
+  color: var(--color-accent);
+  transform: rotate(15deg);
+}
+
+.theme-toggle svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* ============================================ */
+/* ENHANCED SCROLL ANIMATIONS - GPU Optimized */
+/* ============================================ */
+.fade-in {
+  opacity: 0;
+  transform: translateY(40px) translateZ(0);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  backface-visibility: hidden;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0) translateZ(0);
+}
+
+.fade-in-delay-1 { transition-delay: 0.15s; }
+.fade-in-delay-2 { transition-delay: 0.3s; }
+.fade-in-delay-3 { transition-delay: 0.45s; }
+.fade-in-delay-4 { transition-delay: 0.6s; }
+
+/* Section animations */
+.section-animate {
+  opacity: 0;
+  transform: translateY(60px) translateZ(0);
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+  backface-visibility: hidden;
+}
+
+.section-animate.section-visible {
+  opacity: 1;
+  transform: translateY(0) translateZ(0);
+}
+
+/* Stagger animation for list items */
+.stagger-item {
+  opacity: 0;
+  transform: translateY(25px) translateZ(0);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  backface-visibility: hidden;
+}
+
+.stagger-item.visible {
+  opacity: 1;
+  transform: translateY(0) translateZ(0);
+}
+
+/* Parallax effect */
+.parallax-slow {
+  will-change: transform;
+}
+
+/* ============================================ */
+/* SOPHISTICATED LINK STYLES */
+/* ============================================ */
+.link-underline {
+  position: relative;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.link-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--color-accent);
+  transition: width 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.link-underline:hover::after {
+  width: 100%;
+}
+
+/* ============================================ */
+/* SOPHISTICATED BUTTON STYLES */
+/* ============================================ */
+.btn-sophisticated {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--color-text);
+  color: var(--color-bg);
+  border-radius: 100px;
+  font-weight: 500;
+  font-size: 0.875rem;
+  letter-spacing: 0.02em;
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              box-shadow 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.btn-sophisticated::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-muted) 100%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.btn-sophisticated:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.3);
+}
+
+.btn-sophisticated:hover::before {
+  opacity: 1;
+}
+
+.btn-sophisticated span,
+.btn-sophisticated svg {
+  position: relative;
+  z-index: 1;
+}
+
+.btn-sophisticated svg {
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.btn-sophisticated:hover svg {
+  transform: translateX(4px);
+}
+
+/* Outline variant */
+.btn-outline {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-accent);
+  font-weight: 500;
+  font-size: 0.9375rem;
+  transition: color 0.3s ease;
+}
+
+.btn-outline svg {
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.btn-outline:hover {
+  color: var(--color-text);
+}
+
+.btn-outline:hover svg {
+  transform: translateX(6px);
+}
+
+/* ============================================ */
+/* PROJECT CARDS - Refined */
+/* ============================================ */
+.project-item {
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+}
+
+.project-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--color-accent);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.project-item:hover {
+  transform: translateX(8px);
+}
+
+.project-item:hover::before {
+  transform: scaleY(1);
+}
+
+/* Project title animation */
+.project-item h3 {
+  transition: color 0.3s ease, letter-spacing 0.4s ease;
+}
+
+.project-item:hover h3 {
+  color: var(--color-accent);
+  letter-spacing: 0.01em;
+}
+
+/* ============================================ */
+/* STICKY HEADER */
+/* ============================================ */
+.sticky-header {
+  position: sticky;
+  top: 0;
+  background-color: rgba(250, 250, 250, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 10;
+  padding: 1.25rem 0;
+  margin-bottom: 2.5rem;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.dark .sticky-header {
+  background-color: rgba(15, 15, 15, 0.85);
+}
+
+.sticky-header-alt {
+  background-color: rgba(245, 245, 245, 0.85);
+}
+
+.dark .sticky-header-alt {
+  background-color: rgba(26, 26, 26, 0.85);
+}
+
+/* ============================================ */
+/* MAGNETIC BUTTON EFFECT */
+/* ============================================ */
+.magnetic {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ============================================ */
+/* GLOW EFFECTS */
+/* ============================================ */
+.glow-text {
+  text-shadow: 0 0 40px var(--color-accent-glow);
+}
+
+.glow-border {
+  box-shadow: 0 0 20px var(--color-accent-glow);
+}
+
+/* ============================================ */
+/* GRADIENT TEXT */
+/* ============================================ */
+.gradient-text {
+  background: linear-gradient(135deg, var(--color-text) 0%, var(--color-charcoal) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-accent {
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-muted) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ============================================ */
+/* CUSTOM SCROLLBAR */
+/* ============================================ */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-alt);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--color-text-muted), var(--color-charcoal));
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent);
+}
+
+/* ============================================ */
+/* RESPONSIVE TYPOGRAPHY */
+/* ============================================ */
+@media (max-width: 1024px) {
+  html {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: 14px;
+  }
+  
+  .sticky-header {
+    position: relative;
+    background: transparent;
+    backdrop-filter: none;
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 13px;
+  }
+}
+
+/* ============================================ */
+/* UTILITY CLASSES */
+/* ============================================ */
+.text-balance {
+  text-wrap: balance;
+}
+
+/* Smooth image loading */
+img {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+img.loaded {
+  opacity: 1;
+}
+
+/* ============================================ */
+/* FINAL POLISH */
+/* ============================================ */
+
+/* Smooth focus states for accessibility */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+/* Prevent layout shift on hover */
+.project-item {
+  backface-visibility: hidden;
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+
+/* Subtle text rendering improvements */
+h1, h2, h3 {
+  text-rendering: optimizeLegibility;
+}
+
+/* ============================================ */
+/* MICRO-ANIMATIONS */
+/* ============================================ */
+
+/* Subtle breathing animation for status indicator */
+@keyframes breathe {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+.status-dot {
+  animation: breathe 3s ease-in-out infinite;
+}
+
+/* Gentle float animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.float-animation {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Icon hover rotation */
+.icon-rotate {
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.icon-rotate:hover {
+  transform: rotate(5deg) scale(1.1);
+}
+
+/* Text shimmer effect for hero */
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.text-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--color-text) 0%,
+    var(--color-accent) 50%,
+    var(--color-text) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 8s linear infinite;
+}
+
+/* Arrow slide animation */
+.arrow-slide {
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              opacity 0.3s ease;
+}
+
+.group:hover .arrow-slide {
+  transform: translateX(4px);
+}
+
+/* Bullet point animation */
+.bullet-animate {
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.group:hover .bullet-animate {
+  transform: translateX(2px);
+  color: var(--color-accent);
+}
+
+/* Section divider animation */
+.divider-animate {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.divider-animate.visible {
+  transform: scaleX(1);
+}
+
+/* Ensure proper spacing on very large screens */
+@media (min-width: 1920px) {
+  body {
+    font-size: 17px;
+  }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  #particles {
+    display: none;
+  }
+}
+
+/* Print styles */
+@media print {
+  .fade-in,
+  .stagger-item,
+  .section-animate {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  
+  #particles {
+    display: none;
+  }
+}

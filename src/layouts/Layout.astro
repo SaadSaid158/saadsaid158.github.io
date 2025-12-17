@@ -1,0 +1,424 @@
+---
+import '../styles/global.css'
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "Offensive Security · Systems Engineering · Malware Research" } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="author" content="Saad Said" />
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://saadsaid158.github.io" />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    
+    <!-- Inter Font - Optimized Loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    </noscript>
+    
+    <!-- Prevent flash of wrong theme -->
+    <script is:inline>
+      if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      }
+    </script>
+    
+    <title>{title}</title>
+  </head>
+  <body class="bg-[var(--color-bg)] text-[var(--color-text)] antialiased overflow-x-hidden transition-colors duration-300">
+    <slot />
+    
+    <!-- Particle System + Animations Script -->
+    <script>
+      // ============================================
+      // PARTICLE SYSTEM - Optimized for Performance
+      // ============================================
+      function initParticles() {
+        const canvas = document.getElementById('particles') as HTMLCanvasElement;
+        if (!canvas) return;
+
+        const ctx = canvas.getContext('2d', { alpha: true });
+        if (!ctx) return;
+
+        // Configuration - tuned for visibility + performance
+        const CONNECTION_DIST = 160;
+        const CONNECTION_DIST_SQ = CONNECTION_DIST * CONNECTION_DIST;
+        const MOUSE_DIST = 200;
+        const MOUSE_DIST_SQ = MOUSE_DIST * MOUSE_DIST;
+        const GRID_SIZE = CONNECTION_DIST;
+
+        interface Particle {
+          x: number;
+          y: number;
+          size: number;
+          baseSize: number;
+          vx: number;
+          vy: number;
+          opacity: number;
+          fadeDir: number;
+          phase: number;
+        }
+
+        let particles: Particle[] = [];
+        let mouseX = 0;
+        let mouseY = 0;
+        let isMouseActive = false;
+        let canvasW = 0;
+        let canvasH = 0;
+        let lastTime = 0;
+        let isTabVisible = true;
+
+        // Spatial hash grid for O(n) connection detection
+        let grid: Map<string, number[]> = new Map();
+
+        // Throttled mouse tracking
+        let mouseThrottle = 0;
+        canvas.parentElement?.addEventListener('mousemove', (e) => {
+          const now = performance.now();
+          if (now - mouseThrottle < 16) return; // ~60fps max
+          mouseThrottle = now;
+          const rect = canvas.getBoundingClientRect();
+          mouseX = e.clientX - rect.left;
+          mouseY = e.clientY - rect.top;
+          isMouseActive = true;
+        }, { passive: true });
+
+        canvas.parentElement?.addEventListener('mouseleave', () => {
+          isMouseActive = false;
+        }, { passive: true });
+
+        // Pause when tab not visible
+        document.addEventListener('visibilitychange', () => {
+          isTabVisible = !document.hidden;
+          if (isTabVisible) lastTime = performance.now();
+        });
+
+        function resize() {
+          const container = canvas.parentElement;
+          if (!container) return;
+          
+          const dpr = Math.min(window.devicePixelRatio || 1, 2);
+          canvasW = container.offsetWidth;
+          canvasH = container.offsetHeight;
+          
+          canvas.width = canvasW * dpr;
+          canvas.height = canvasH * dpr;
+          canvas.style.width = canvasW + 'px';
+          canvas.style.height = canvasH + 'px';
+          ctx.scale(dpr, dpr);
+        }
+
+        function createParticles() {
+          particles = [];
+          // Responsive particle count - more prominent
+          const area = canvasW * canvasH;
+          const isMobile = canvasW < 768;
+          const baseCount = isMobile ? 50 : 90;
+          const count = Math.min(baseCount, Math.floor(area / 12000) + 30);
+          
+          for (let i = 0; i < count; i++) {
+            particles.push({
+              x: Math.random() * canvasW,
+              y: Math.random() * canvasH,
+              baseSize: Math.random() * 2 + 1.2,
+              size: 0,
+              vx: (Math.random() - 0.5) * 0.5,
+              vy: (Math.random() - 0.5) * 0.5,
+              opacity: Math.random() * 0.35 + 0.3,
+              fadeDir: Math.random() > 0.5 ? 1 : -1,
+              phase: Math.random() * 6.28
+            });
+          }
+        }
+
+        function getGridKey(x: number, y: number): string {
+          return `${Math.floor(x / GRID_SIZE)},${Math.floor(y / GRID_SIZE)}`;
+        }
+
+        function buildSpatialGrid() {
+          grid.clear();
+          for (let i = 0; i < particles.length; i++) {
+            const key = getGridKey(particles[i].x, particles[i].y);
+            const cell = grid.get(key);
+            if (cell) cell.push(i);
+            else grid.set(key, [i]);
+          }
+        }
+
+        function getNearbyParticles(x: number, y: number): number[] {
+          const nearby: number[] = [];
+          const gx = Math.floor(x / GRID_SIZE);
+          const gy = Math.floor(y / GRID_SIZE);
+          
+          // Check 3x3 grid around particle
+          for (let dx = -1; dx <= 1; dx++) {
+            for (let dy = -1; dy <= 1; dy++) {
+              const cell = grid.get(`${gx + dx},${gy + dy}`);
+              if (cell) nearby.push(...cell);
+            }
+          }
+          return nearby;
+        }
+
+        function animate(time: number) {
+          if (!isTabVisible) {
+            requestAnimationFrame(animate);
+            return;
+          }
+
+          // Frame timing
+          const delta = Math.min(time - lastTime, 32); // Cap delta to prevent jumps
+          lastTime = time;
+          const timeFactor = delta / 16.67; // Normalize to 60fps
+
+          ctx.clearRect(0, 0, canvasW, canvasH);
+          
+          // Update particles
+          const sinTime = Math.sin(time * 0.001);
+          for (let i = 0; i < particles.length; i++) {
+            const p = particles[i];
+            
+            p.x += p.vx * timeFactor;
+            p.y += p.vy * timeFactor;
+            p.size = p.baseSize + Math.sin(time * 0.0008 + p.phase) * 0.3;
+            
+            p.opacity += p.fadeDir * 0.003 * timeFactor;
+            if (p.opacity >= 0.55) p.fadeDir = -1;
+            if (p.opacity <= 0.2) p.fadeDir = 1;
+
+            // Wrap edges
+            if (p.x < 0) p.x = canvasW;
+            else if (p.x > canvasW) p.x = 0;
+            if (p.y < 0) p.y = canvasH;
+            else if (p.y > canvasH) p.y = 0;
+          }
+
+          // Build spatial grid for efficient neighbor lookup
+          buildSpatialGrid();
+
+          // Batch draw connections
+          ctx.lineWidth = 0.8;
+          ctx.lineCap = 'round';
+          
+          const drawnPairs = new Set<string>();
+          
+          for (let i = 0; i < particles.length; i++) {
+            const p1 = particles[i];
+            const nearby = getNearbyParticles(p1.x, p1.y);
+            
+            for (const j of nearby) {
+              if (j <= i) continue; // Avoid duplicates
+              
+              const pairKey = i < j ? `${i}-${j}` : `${j}-${i}`;
+              if (drawnPairs.has(pairKey)) continue;
+              drawnPairs.add(pairKey);
+              
+              const p2 = particles[j];
+              const dx = p1.x - p2.x;
+              const dy = p1.y - p2.y;
+              const distSq = dx * dx + dy * dy;
+
+              if (distSq < CONNECTION_DIST_SQ) {
+                const dist = Math.sqrt(distSq);
+                const opacity = (1 - dist / CONNECTION_DIST) * 0.28;
+                ctx.beginPath();
+                ctx.moveTo(p1.x, p1.y);
+                ctx.lineTo(p2.x, p2.y);
+                ctx.strokeStyle = `rgba(59, 130, 246, ${opacity})`;
+                ctx.stroke();
+              }
+            }
+
+            // Mouse connections
+            if (isMouseActive) {
+              const dx = p1.x - mouseX;
+              const dy = p1.y - mouseY;
+              const distSq = dx * dx + dy * dy;
+              
+              if (distSq < MOUSE_DIST_SQ) {
+                const dist = Math.sqrt(distSq);
+                const opacity = (1 - dist / MOUSE_DIST) * 0.45;
+                ctx.beginPath();
+                ctx.moveTo(p1.x, p1.y);
+                ctx.lineTo(mouseX, mouseY);
+                ctx.strokeStyle = `rgba(59, 130, 246, ${opacity})`;
+                ctx.lineWidth = 1.2;
+                ctx.stroke();
+                ctx.lineWidth = 1;
+              }
+            }
+          }
+
+          // Draw particles
+          for (let i = 0; i < particles.length; i++) {
+            const p = particles[i];
+            ctx.globalAlpha = p.opacity;
+            ctx.fillStyle = 'rgba(59, 130, 246, 1)';
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.size, 0, 6.28);
+            ctx.fill();
+          }
+          ctx.globalAlpha = 1;
+
+          requestAnimationFrame(animate);
+        }
+
+        // Debounced resize
+        let resizeTimeout: number;
+        function handleResize() {
+          clearTimeout(resizeTimeout);
+          resizeTimeout = setTimeout(() => {
+            resize();
+            createParticles();
+          }, 150);
+        }
+
+        // Initialize
+        resize();
+        createParticles();
+        lastTime = performance.now();
+        requestAnimationFrame(animate);
+
+        window.addEventListener('resize', handleResize, { passive: true });
+      }
+
+      // ============================================
+      // SCROLL ANIMATIONS
+      // ============================================
+      const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, observerOptions);
+
+      // ============================================
+      // SMOOTH REVEAL FOR SECTIONS
+      // ============================================
+      const sectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('section-visible');
+          }
+        });
+      }, { threshold: 0.05 });
+
+      // ============================================
+      // MAGNETIC HOVER EFFECT
+      // ============================================
+      function initMagneticButtons() {
+        const magneticElements = document.querySelectorAll('.magnetic');
+        
+        magneticElements.forEach((el) => {
+          const element = el as HTMLElement;
+          
+          element.addEventListener('mousemove', (e: MouseEvent) => {
+            const rect = element.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            
+            element.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+          });
+          
+          element.addEventListener('mouseleave', () => {
+            element.style.transform = 'translate(0, 0)';
+          });
+        });
+      }
+
+      // ============================================
+      // THEME TOGGLE
+      // ============================================
+      function initThemeToggle() {
+        const toggle = document.getElementById('theme-toggle');
+        if (!toggle) return;
+
+        // Check for saved preference or system preference
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        
+        if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+          document.documentElement.classList.add('dark');
+        }
+
+        toggle.addEventListener('click', () => {
+          document.documentElement.classList.toggle('dark');
+          const isDark = document.documentElement.classList.contains('dark');
+          localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        });
+      }
+
+      // ============================================
+      // INIT ON DOM READY
+      // ============================================
+      document.addEventListener('DOMContentLoaded', () => {
+        // Init theme toggle
+        initThemeToggle();
+        
+        // Init particles
+        initParticles();
+        
+        // Observe fade-in elements
+        const fadeElements = document.querySelectorAll('.fade-in, .stagger-item');
+        fadeElements.forEach((el) => observer.observe(el));
+
+        // Observe sections
+        const sections = document.querySelectorAll('.section-animate');
+        sections.forEach((el) => sectionObserver.observe(el));
+
+        // Stagger animations
+        const staggerItems = document.querySelectorAll('.stagger-item');
+        staggerItems.forEach((el, index) => {
+          (el as HTMLElement).style.transitionDelay = `${index * 0.08}s`;
+        });
+
+        // Init magnetic buttons
+        initMagneticButtons();
+      });
+
+      // Parallax effect
+      let ticking = false;
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          window.requestAnimationFrame(() => {
+            const scrolled = window.pageYOffset;
+            const parallaxElements = document.querySelectorAll('.parallax-slow');
+            parallaxElements.forEach((el) => {
+              const element = el as HTMLElement;
+              const speed = 0.3;
+              element.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+            ticking = false;
+          });
+          ticking = true;
+        }
+      });
+    </script>
+  </body>
+</html>
