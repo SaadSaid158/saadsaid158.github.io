@@ -1,165 +1,173 @@
 <!DOCTYPE html>
 <html lang="en">
-   <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta name="description" content="Offensive Security · Systems Engineering · Malware Research">
-      <meta name="author" content="Saad Said">
-      <meta property="og:title" content="Saad Said — Offensive Security & Systems Engineering">
-      <meta property="og:description" content="Offensive Security · Systems Engineering · Malware Research">
-      <meta property="og:type" content="website">
-      <meta property="og:url" content="https://saadsaid158.github.io">
-      <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-      
-      <link rel="preconnect" href="https://fonts.googleapis.com">
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-      <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
-      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-      <noscript>
-         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-      </noscript>
-
-      <script>
-         // 1. Theme Logic
-         if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-           document.documentElement.classList.add('dark');
-         }
-
-         // 2. Disable Right-Click Globally
-         document.addEventListener('contextmenu', e => e.preventDefault());
-
-         // 3. Disable Keyboard Shortcuts (Copy, View Source, Inspect)
-         document.addEventListener('keydown', e => {
-            // Block Ctrl+C, Ctrl+U, Ctrl+Shift+I, F12
-            if (
-               ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u')) || 
-               (e.ctrlKey && e.shiftKey && e.key === 'I') || 
-               (e.key === 'F12')
-            ) {
-               e.preventDefault();
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Offensive Security · Systems Engineering · Malware Research">
+        <meta name="author" content="Saad Said">
+        <meta property="og:title" content="Saad Said — Offensive Security & Systems Engineering">
+        <meta property="og:description" content="Offensive Security · Systems Engineering · Malware Research">
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://saadsaid158.github.io">
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+        <noscript>
+            <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+        </noscript>
+        <script>
+            // 1. Theme Logic
+            if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+              document.documentElement.classList.add('dark');
             }
-         });
-      </script>
-
-      <style>
-         /* Disable Text Selection Globally */
-         *, *::before, *::after {
+            
+            // 2. Disable Right-Click Globally
+            document.addEventListener('contextmenu', e => e.preventDefault());
+            
+            // 3. Disable Keyboard Shortcuts (Copy, View Source, Inspect)
+            document.addEventListener('keydown', e => {
+               // Block Ctrl+C, Ctrl+U, Ctrl+Shift+I, F12
+               if (
+                  ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u')) || 
+                  (e.ctrlKey && e.shiftKey && e.key === 'I') || 
+                  (e.key === 'F12')
+               ) {
+                  e.preventDefault();
+               }
+            });
+        </script>
+        <style>
+            /* Disable Text Selection Globally */
+            *, *::before, *::after {
             user-select: none !important;
             -webkit-user-select: none !important;
             -webkit-tap-highlight-color: transparent !important;
-         }
-      </style>
-
-      <title>Saad Said — Offensive Security & Systems Engineering</title>
-      <link rel="stylesheet" href="/_astro/index.00X5sLgT.css">
-   </head>
-
-   <body class="bg-[var(--color-bg)] text-[var(--color-text)] antialiased overflow-x-hidden transition-colors duration-300">
-      <main class="min-h-screen">
-         
-         <section class="relative min-h-screen flex items-center px-6 sm:px-8 md:px-16 lg:px-24 xl:px-32 2xl:px-40">
-            <canvas id="particles" class="absolute inset-0 pointer-events-none"></canvas>
-            <div class="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-[rgba(59,130,246,0.03)] pointer-events-none"></div>
-            
-            <div class="absolute top-6 sm:top-8 left-6 sm:left-8 md:left-16 lg:left-24 xl:left-32 2xl:left-40 right-6 sm:right-8 md:right-16 lg:right-24 xl:right-32 2xl:right-40 flex items-center justify-between z-20">
-               <nav class="flex items-center gap-6 sm:gap-8 text-sm text-[var(--color-text-muted)]"> 
-                  <a href="#work" class="hover:text-[var(--color-accent)] transition-colors duration-300">Work</a> 
-                  <a href="#security" class="hover:text-[var(--color-accent)] transition-colors duration-300">Security</a> 
-                  <a href="#about" class="hover:text-[var(--color-accent)] transition-colors duration-300">About</a> 
-               </nav>
-               <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
-                  <svg class="hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
-                  </svg>
-                  <svg class="block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
-                  </svg>
-               </button>
-            </div>
-
-            <div class="relative z-10 max-w-5xl w-full">
-               <div class="flex items-center gap-2 mb-8 fade-in"> 
-                  <span class="relative flex h-2 w-2"> 
-                     <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span> 
-                     <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span> 
-                  </span> 
-                  <span class="text-sm text-[#6b7280] tracking-wide">Available for opportunities</span> 
-               </div>
-               <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-semibold text-[var(--color-text)] mb-4 md:mb-6 fade-in fade-in-delay-1 tracking-tight">Saad Said</h1>
-               <p class="text-lg sm:text-xl md:text-2xl lg:text-3xl text-[var(--color-charcoal)] mb-8 md:mb-10 fade-in fade-in-delay-2 font-light tracking-wide"> 
-                  <span class="text-[var(--color-accent)]">Offensive Security</span> 
-                  <span class="text-[var(--color-border)] mx-2 md:mx-3">·</span> 
-                  <span>Systems Engineering</span> 
-                  <span class="text-[var(--color-border)] mx-2 md:mx-3">·</span> 
-                  <span>Malware Research</span> 
-               </p>
-               <div class="flex flex-wrap gap-5 sm:gap-7 md:gap-8 text-[var(--color-text-muted)] fade-in fade-in-delay-3">
-                  <a href="https://github.com/SaadSaid158" target="_blank" rel="noopener noreferrer" class="group flex items-center gap-2.5 text-base md:text-lg link-underline hover:text-[var(--color-accent)]">
-                     <span>GitHub</span> 
-                  </a>
-                  <a href="https://www.linkedin.com/in/karim-saad-said-1641b5337" target="_blank" rel="noopener noreferrer" class="group flex items-center gap-2.5 text-base md:text-lg link-underline hover:text-[var(--color-accent)]">
-                     <span>LinkedIn</span> 
-                  </a>
-                  <a href="mailto:saad.dev158@gmail.com" class="group flex items-center gap-2.5 text-base md:text-lg link-underline hover:text-[var(--color-accent)]">
-                     <span>Email</span> 
-                  </a>
-               </div>
-            </div>
-         </section>
-
-         <section id="security" class="section-animate relative px-6 sm:px-8 md:px-16 lg:px-24 xl:px-32 2xl:px-40 py-20 md:py-28 lg:py-32 bg-[var(--color-bg-alt)]">
-            <div class="absolute inset-0 opacity-20 dark:opacity-10" style="background-image: radial-gradient(circle at 1px 1px, var(--color-border) 1px, transparent 0); background-size: 32px 32px;"></div>
-            <div class="relative max-w-5xl">
-               <h2 class="sticky-header sticky-header-alt text-xs sm:text-sm uppercase tracking-[0.2em] text-[var(--color-text-muted)] font-medium">Offensive Security</h2>
-               <div class="fade-in">
-                  <p class="text-lg sm:text-xl md:text-2xl text-[var(--color-charcoal)] mb-10 md:mb-12 font-light leading-relaxed">
-                     Practical exploitation with a focus on internal networks and Active Directory.
-                  </p>
-                  <ul class="space-y-5 sm:space-y-6 text-[var(--color-text)] mb-10">
-                     <li class="flex items-start gap-4 stagger-item group">
-                        <span class="text-[var(--color-accent)] font-medium text-lg">→</span>
-                        <span class="text-base sm:text-lg">Active Directory attack paths & privilege escalation</span>
-                     </li>
-                     <li class="flex items-start gap-4 stagger-item group">
-                        <span class="text-[var(--color-accent)] font-medium text-lg">→</span>
-                        <span class="text-base sm:text-lg">Custom post-exploitation tooling development</span>
-                     </li>
-                     <li class="flex items-start gap-4 stagger-item group">
-                        <span class="text-[var(--color-accent)] font-medium text-lg">→</span>
-                        <span class="text-base sm:text-lg">Lab-based exploitation (TryHackMe, HackTheBox, local AD environments)</span>
-                     </li>
-                  </ul>
-                  
-                  <div style="display: flex !important; width: 100% !important; flex-wrap: wrap; align-items: center; padding-top: 1.5rem; gap: 1.5rem;">
-                     <div style="flex: 0 0 auto;">
-                        <a href="https://tryhackme.com/p/Saad.Said158" target="_blank" rel="noopener noreferrer" class="btn-sophisticated group">
-                           <span>TryHackMe Profile</span>
+            }
+        </style>
+        <title>Saad Said — Offensive Security & Systems Engineering</title>
+        <link rel="stylesheet" href="/_astro/index.00X5sLgT.css">
+    </head>
+    <body class="bg-[var(--color-bg)] text-[var(--color-text)] antialiased overflow-x-hidden transition-colors duration-300">
+        <main class="min-h-screen">
+            <section class="relative min-h-screen flex items-center px-6 sm:px-8 md:px-16 lg:px-24 xl:px-32 2xl:px-40">
+                <canvas id="particles" class="absolute inset-0 pointer-events-none"></canvas>
+                <div class="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-[rgba(59,130,246,0.03)] pointer-events-none"></div>
+                <div class="absolute top-6 sm:top-8 left-6 sm:left-8 md:left-16 lg:left-24 xl:left-32 2xl:left-40 right-6 sm:right-8 md:right-16 lg:right-24 xl:right-32 2xl:right-40 flex items-center justify-between z-20">
+                    <nav class="flex items-center gap-6 sm:gap-8 text-sm text-[var(--color-text-muted)]"> 
+                        <a href="#work" class="hover:text-[var(--color-accent)] transition-colors duration-300">Work</a> 
+                        <a href="#security" class="hover:text-[var(--color-accent)] transition-colors duration-300">Security</a> 
+                        <a href="#about" class="hover:text-[var(--color-accent)] transition-colors duration-300">About</a> 
+                    </nav>
+                    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+                        <svg class="hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                        <svg class="block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="relative z-10 max-w-5xl w-full">
+                    <div class="flex items-center gap-2 mb-8 fade-in"> 
+                        <span class="relative flex h-2 w-2"> 
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span> 
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span> 
+                        </span> 
+                        <span class="text-sm text-[#6b7280] tracking-wide">Available for opportunities</span> 
+                    </div>
+                    <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-semibold text-[var(--color-text)] mb-4 md:mb-6 fade-in fade-in-delay-1 tracking-tight">Saad Said</h1>
+                    <p class="text-lg sm:text-xl md:text-2xl lg:text-3xl text-[var(--color-charcoal)] mb-8 md:mb-10 fade-in fade-in-delay-2 font-light tracking-wide"> 
+                        <span class="text-[var(--color-accent)]">Offensive Security</span> 
+                        <span class="text-[var(--color-border)] mx-2 md:mx-3">·</span> 
+                        <span>Systems Engineering</span> 
+                        <span class="text-[var(--color-border)] mx-2 md:mx-3">·</span> 
+                        <span>Malware Research</span> 
+                    </p>
+                    <div class="flex flex-wrap gap-5 sm:gap-7 md:gap-8 text-[var(--color-text-muted)] fade-in fade-in-delay-3">
+                        <a href="https://github.com/SaadSaid158" target="_blank" rel="noopener noreferrer" class="group flex items-center gap-2.5 text-base md:text-lg link-underline hover:text-[var(--color-accent)]">
+                        <span>GitHub</span> 
                         </a>
-                     </div>
-                     <div style="flex: 0 0 auto;">
-                        <a href="https://tryhackme.com/p/Saad.Said158" target="_blank" rel="noopener noreferrer" class="block transition-transform duration-300 hover:scale-[1.02]">
-                        <iframe
-                           src="https://tryhackme.com/api/v2/badges/public-profile?userPublicId=2588884"
-                           style="border:none; width:340px; height:96px; overflow:hidden; display: block;"
-                           scrolling="no">
-                        </iframe>
+                        <a href="https://www.linkedin.com/in/karim-saad-said-1641b5337" target="_blank" rel="noopener noreferrer" class="group flex items-center gap-2.5 text-base md:text-lg link-underline hover:text-[var(--color-accent)]">
+                        <span>LinkedIn</span> 
                         </a>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </section>
-
-         <footer class="px-6 sm:px-8 md:px-16 lg:px-24 xl:px-32 2xl:px-40 py-10 md:py-12 border-t border-[var(--color-border)]">
-            <div class="max-w-5xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-               <p class="text-sm text-[var(--color-text-muted)]">© 2025 Saad Said</p>
-               <div class="flex gap-6 text-sm text-[var(--color-text-muted)]"> 
-                  <a href="https://github.com/SaadSaid158" target="_blank" rel="noopener noreferrer">GitHub</a> 
-                  <a href="https://www.linkedin.com/in/karim-saad-said-1641b5337" target="_blank" rel="noopener noreferrer">LinkedIn</a> 
-               </div>
-            </div>
-         </footer>
-      </main>
-      <script type="module" src="/_astro/Layout.astro_astro_type_script_index_0_lang.DYWqb8xE.js"></script> 
-   </body>
+                        <a href="mailto:saad.dev158@gmail.com" class="group flex items-center gap-2.5 text-base md:text-lg link-underline hover:text-[var(--color-accent)]">
+                        <span>Email</span> 
+                        </a>
+                    </div>
+                </div>
+            </section>
+            <section id="security" class="section-animate relative px-6 sm:px-8 md:px-16 lg:px-24 xl:px-32 2xl:px-40 py-20 md:py-28 lg:py-32 bg-[var(--color-bg-alt)]">
+                <div class="absolute inset-0 opacity-20 dark:opacity-10" style="background-image: radial-gradient(circle at 1px 1px, var(--color-border) 1px, transparent 0); background-size: 32px 32px;"></div>
+                <div class="relative max-w-5xl">
+                    <h2 class="sticky-header sticky-header-alt text-xs sm:text-sm uppercase tracking-[0.2em] text-[var(--color-text-muted)] font-medium">Offensive Security</h2>
+                    <div class="fade-in">
+                        <p class="text-lg sm:text-xl md:text-2xl text-[var(--color-charcoal)] mb-10 md:mb-12 font-light leading-relaxed">
+                            Practical exploitation with a focus on internal networks and Active Directory.
+                        </p>
+                        <ul class="space-y-5 sm:space-y-6 text-[var(--color-text)] mb-10">
+                            <li class="flex items-start gap-4 stagger-item group">
+                                <span class="text-[var(--color-accent)] font-medium text-lg">→</span>
+                                <span class="text-base sm:text-lg">Active Directory attack paths & privilege escalation</span>
+                            </li>
+                            <li class="flex items-start gap-4 stagger-item group">
+                                <span class="text-[var(--color-accent)] font-medium text-lg">→</span>
+                                <span class="text-base sm:text-lg">Custom post-exploitation tooling development</span>
+                            </li>
+                            <li class="flex items-start gap-4 stagger-item group">
+                                <span class="text-[var(--color-accent)] font-medium text-lg">→</span>
+                                <span class="text-base sm:text-lg">Lab-based exploitation (TryHackMe, HackTheBox, local AD environments)</span>
+                            </li>
+                        </ul>
+                        <div style="display: flex !important; width: 100% !important; flex-wrap: wrap; align-items: center; padding-top: 1.5rem; gap: 1.5rem;">
+                            <div style="flex: 0 0 auto;">
+                                <a href="https://tryhackme.com/p/Saad.Said158" target="_blank" rel="noopener noreferrer" class="btn-sophisticated group">
+                                <span>TryHackMe Profile</span>
+                                </a>
+                            </div>
+                            <div style="flex: 0 0 auto;">
+                                <a href="https://tryhackme.com/p/Saad.Said158" target="_blank" rel="noopener noreferrer" class="block transition-transform duration-300 hover:scale-[1.02]">
+                                <iframe
+                                    src="https://tryhackme.com/api/v2/badges/public-profile?userPublicId=2588884"
+                                    style="border:none; width:340px; height:96px; overflow:hidden; display: block;"
+                                    scrolling="no">
+                                </iframe>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- About Section -->
+            <section id="about" class="section-animate px-6 sm:px-8 md:px-16 lg:px-24 xl:px-32 2xl:px-40 py-20 md:py-28 lg:py-32">
+                <div class="max-w-5xl">
+                    <h2 class="sticky-header text-xs sm:text-sm uppercase tracking-[0.2em] text-[var(--color-text-muted)] font-medium">
+                        About
+                    </h2>
+                    <div class="fade-in">
+                        <p class="text-lg sm:text-xl md:text-2xl text-[var(--color-charcoal)] leading-relaxed md:leading-relaxed max-w-4xl font-light text-balance">
+                            I specialise in offensive security, focusing on networks, malware & exploit development, and post-exploitation. I build and adapt tooling to map attack paths, escalate privileges, and stress-test systems under hostile conditions—prioritising precision, understanding, and practical impact. Alongside this, I work on software engineering and automation, designing trading systems with proprietary strategies and building optimisations that emphasise robustness, efficiency, and correctness across the entire stack.
+                        </p>
+                    </div>
+                </div>
+            </section>
+            <footer class="px-6 sm:px-8 md:px-16 lg:px-24 xl:px-32 2xl:px-40 py-10 md:py-12 border-t border-[var(--color-border)]">
+                <div class="max-w-5xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <p class="text-sm text-[var(--color-text-muted)]">
+                        © 2025 Saad Said
+                    </p>
+                    <div class="flex gap-6 text-sm text-[var(--color-text-muted)]"> 
+                        <a href="https://github.com/SaadSaid158" target="_blank" rel="noopener noreferrer" class="hover:text-[var(--color-accent)] transition-colors duration-300">
+                        GitHub
+                        </a> 
+                        <a href="https://www.linkedin.com/in/karim-saad-said-1641b5337" target="_blank" rel="noopener noreferrer" class="hover:text-[var(--color-accent)] transition-colors duration-300">
+                        LinkedIn
+                        </a> 
+                    </div>
+                </div>
+            </footer>
+        </main>
+        <script type="module" src="/_astro/Layout.astro_astro_type_script_index_0_lang.DYWqb8xE.js"></script> 
+    </body>
 </html>
