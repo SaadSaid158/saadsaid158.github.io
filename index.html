@@ -157,33 +157,31 @@
             </div>
          </section>
          <!-- Offensive Security Section --> 
-         <section id="security" class="section-animate relative px-6 sm:px-8 md:px-16 lg:px-24 xl:px-32 2xl:px-40 py-20 md:py-28 lg:py-32 bg-[var(--color-bg-alt)]">
+         <section id="security" class="section-animate relative px-6 sm:px-8 md:px-16 lg:px-24 xl:px-32 2xl:px-40 py-20 md:py-28 lg:py-32 bg-[var(--color-bg-alt)]" style="user-select: none; -webkit-user-select: none;">
             <div class="absolute inset-0 opacity-20 dark:opacity-10" style="background-image: radial-gradient(circle at 1px 1px, var(--color-border) 1px, transparent 0); background-size: 32px 32px;"></div>
             <div class="relative max-w-5xl">
-            <h2 class="sticky-header sticky-header-alt text-xs sm:text-sm uppercase tracking-[0.2em] text-[var(--color-text-muted)] font-medium">
-               Offensive Security
-            </h2>
-            <div class="fade-in">
-            <p class="text-lg sm:text-xl md:text-2xl text-[var(--color-charcoal)] mb-10 md:mb-12 font-light leading-relaxed">
-               Practical exploitation with a focus on internal networks and Active Directory.
-            </p>
-            <ul class="space-y-5 sm:space-y-6 text-[var(--color-text)] mb-10">
-               <li class="flex items-start gap-4 stagger-item group">
-                  <span class="text-[var(--color-accent)] font-medium text-lg transition-transform duration-300 group-hover:translate-x-1">→</span>
-                  <span class="text-base sm:text-lg">Active Directory attack paths & privilege escalation</span>
-               </li>
-               <li class="flex items-start gap-4 stagger-item group">
-                  <span class="text-[var(--color-accent)] font-medium text-lg transition-transform duration-300 group-hover:translate-x-1">→</span>
-                  <span class="text-base sm:text-lg">Custom post-exploitation tooling development</span>
-               </li>
-               <li class="flex items-start gap-4 stagger-item group">
-                  <span class="text-[var(--color-accent)] font-medium text-lg transition-transform duration-300 group-hover:translate-x-1">→</span>
-                  <span class="text-base sm:text-lg">Lab-based exploitation (TryHackMe, HackTheBox, local AD environments)</span>
-               </li>
-            </ul>
-            <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-8 pt-6 items-center">
-               <div class="flex justify-start">
-                  <div style="display: flex !important; width: 100% !important; flex-wrap: wrap; align-items: center; padding-top: 2rem; gap: 2rem;">
+               <h2 class="sticky-header sticky-header-alt text-xs sm:text-sm uppercase tracking-[0.2em] text-[var(--color-text-muted)] font-medium">
+                  Offensive Security
+               </h2>
+               <div class="fade-in">
+                  <p class="text-lg sm:text-xl md:text-2xl text-[var(--color-charcoal)] mb-10 md:mb-12 font-light leading-relaxed">
+                     Practical exploitation with a focus on internal networks and Active Directory.
+                  </p>
+                  <ul class="space-y-5 sm:space-y-6 text-[var(--color-text)] mb-10">
+                     <li class="flex items-start gap-4 stagger-item group">
+                        <span class="text-[var(--color-accent)] font-medium text-lg transition-transform duration-300 group-hover:translate-x-1">→</span>
+                        <span class="text-base sm:text-lg">Active Directory attack paths & privilege escalation</span>
+                     </li>
+                     <li class="flex items-start gap-4 stagger-item group">
+                        <span class="text-[var(--color-accent)] font-medium text-lg transition-transform duration-300 group-hover:translate-x-1">→</span>
+                        <span class="text-base sm:text-lg">Custom post-exploitation tooling development</span>
+                     </li>
+                     <li class="flex items-start gap-4 stagger-item group">
+                        <span class="text-[var(--color-accent)] font-medium text-lg transition-transform duration-300 group-hover:translate-x-1">→</span>
+                        <span class="text-base sm:text-lg">Lab-based exploitation (TryHackMe, HackTheBox, local AD environments)</span>
+                     </li>
+                  </ul>
+                  <div style="display: flex !important; width: 100% !important; flex-wrap: wrap; align-items: center; padding-top: 1.5rem; gap: 2rem;">
                      <div style="flex: 0 0 auto;">
                         <a href="https://tryhackme.com/p/Saad.Said158" target="_blank" rel="noopener noreferrer" class="btn-sophisticated group">
                            <span>TryHackMe Profile</span>
@@ -192,7 +190,7 @@
                            </svg>
                         </a>
                      </div>
-                     <div style="margin-left: auto; flex: 0 0 auto;">
+                     <div style="flex: 0 0 auto;">
                         <a href="https://tryhackme.com/p/Saad.Said158" target="_blank" rel="noopener noreferrer" class="block transition-transform duration-300 hover:scale-[1.02]">
                         <iframe
                            src="https://tryhackme.com/api/v2/badges/public-profile?userPublicId=2588884"
@@ -204,6 +202,19 @@
                   </div>
                </div>
             </div>
+            <script>
+               (function() {
+                 const section = document.getElementById('security');
+                 // Block right-click
+                 section.addEventListener('contextmenu', e => e.preventDefault());
+                 // Block keyboard copy (Ctrl+C / Cmd+C)
+                 section.addEventListener('keydown', e => {
+                   if ((e.ctrlKey || e.metaKey) && e.key === 'c') {
+                     e.preventDefault();
+                   }
+                 });
+               })();
+            </script>
          </section>
          <!-- About Section --> 
          <section id="about" class="section-animate px-6 sm:px-8 md:px-16 lg:px-24 xl:px-32 2xl:px-40 py-20 md:py-28 lg:py-32">
