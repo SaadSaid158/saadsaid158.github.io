@@ -117,6 +117,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning className={`scroll-smooth ${GeistSans.variable} ${GeistMono.variable}`}>
+      <head>
+        <meta name="google-site-verification" content="JuO54Cah6-yjU9S6xevy-uDHfwbNtnR4ZCuSuG9o0Nk" />
+      </head>
       <body className={GeistSans.className}>
         <script
           type="application/ld+json"
