@@ -23,6 +23,8 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
@@ -51,6 +53,7 @@
   --input: #e4e4e7;
   --ring: #18181b;
   --radius: 0.5rem;
+  --royal: #3b5bdb;
 }
 
 .dark {
@@ -81,6 +84,8 @@
   }
   body {
     @apply bg-background text-foreground select-none;
+    font-feature-settings: "cv11", "ss01";
+    font-variation-settings: "opsz" 32;
   }
   input, textarea {
     @apply select-text;
@@ -99,4 +104,60 @@
   animation: star-btn calc(var(--duration) * 1s) linear infinite;
   offset-path: var(--path);
   width: var(--light-width);
+}
+
+/* floating label inputs */
+.float-label-wrap {
+  position: relative;
+}
+
+.float-label-wrap input,
+.float-label-wrap textarea {
+  padding-top: 1.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.float-label-wrap label {
+  position: absolute;
+  top: 0.85rem;
+  left: 1rem;
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+  pointer-events: none;
+  transform-origin: left top;
+  transition: transform 0.18s ease, font-size 0.18s ease, color 0.18s ease, top 0.18s ease;
+}
+
+.float-label-wrap input:focus ~ label,
+.float-label-wrap input:not(:placeholder-shown) ~ label,
+.float-label-wrap textarea:focus ~ label,
+.float-label-wrap textarea:not(:placeholder-shown) ~ label {
+  top: 0.3rem;
+  font-size: 0.7rem;
+  color: #3b5bdb;
+}
+
+/* Noise texture overlay */
+.noise-overlay::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 1;
+  border-radius: inherit;
+}
+
+/* Section divider gradient */
+.section-fade-top {
+  background: linear-gradient(to bottom, transparent, var(--background));
+  height: 5rem;
+  pointer-events: none;
+}
+
+.section-fade-bottom {
+  background: linear-gradient(to top, transparent, var(--background));
+  height: 5rem;
+  pointer-events: none;
 }

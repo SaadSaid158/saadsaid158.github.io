@@ -61,7 +61,7 @@ export default function FooterSection() {
                         <Link
                             key={index}
                             href={link.href}
-                            className="text-neutral-500 hover:text-cyan-500 dark:text-neutral-400 dark:hover:text-cyan-400 transition-colors duration-150">
+                            className="text-neutral-500 hover:text-[#3b5bdb] dark:text-neutral-400 dark:hover:text-[#6b8cff] transition-colors duration-150">
                             <span>{link.title}</span>
                         </Link>
                     ))}
@@ -70,7 +70,7 @@ export default function FooterSection() {
                     <Link
                         href="/"
                         aria-label="Portfolio"
-                        className="text-neutral-500 hover:text-cyan-500 dark:text-neutral-400 dark:hover:text-cyan-400 transition-colors block">
+                        className="text-neutral-500 hover:text-[#3b5bdb] dark:text-neutral-400 dark:hover:text-[#6b8cff] transition-colors block">
                         <Globe className="size-6" /> 
                     </Link>
                     <Link
@@ -78,7 +78,7 @@ export default function FooterSection() {
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label="GitHub"
-                        className="text-neutral-500 hover:text-cyan-500 dark:text-neutral-400 dark:hover:text-cyan-400 transition-colors block">
+                        className="text-neutral-500 hover:text-[#3b5bdb] dark:text-neutral-400 dark:hover:text-[#6b8cff] transition-colors block">
                         <GithubIcon className="size-6" /> 
                     </Link>
                     <Link
@@ -86,7 +86,7 @@ export default function FooterSection() {
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label="TryHackMe"
-                        className="text-neutral-500 hover:text-cyan-500 dark:text-neutral-400 dark:hover:text-cyan-400 transition-colors block">
+                        className="text-neutral-500 hover:text-[#3b5bdb] dark:text-neutral-400 dark:hover:text-[#6b8cff] transition-colors block">
                         <Terminal className="size-6" /> 
                     </Link>
                     <Link
@@ -94,7 +94,7 @@ export default function FooterSection() {
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label="LinkedIn"
-                        className="text-neutral-500 hover:text-cyan-500 dark:text-neutral-400 dark:hover:text-cyan-400 transition-colors block">
+                        className="text-neutral-500 hover:text-[#3b5bdb] dark:text-neutral-400 dark:hover:text-[#6b8cff] transition-colors block">
                         <LinkedinIcon className="size-6" /> 
                     </Link>
                 </div>

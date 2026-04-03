@@ -106,9 +106,9 @@ export function BackgroundPaths({
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 1, duration: 0.8 }}
-                        className="text-xl md:text-2xl font-medium text-neutral-600 dark:text-neutral-400 mb-10"
+                        className="font-mono text-xs md:text-sm tracking-[0.22em] text-neutral-600 dark:text-neutral-400 mb-10 uppercase px-5 py-2.5 rounded-full bg-white/60 dark:bg-neutral-950/60 backdrop-blur-md border border-neutral-200/50 dark:border-neutral-800/50"
                     >
-                        Security Researcher · Systems Engineer · Go, C, Python
+                        Security Researcher &nbsp;·&nbsp; Exploit Dev &nbsp;·&nbsp; Go / C / Python
                     </motion.p>
 
                     <div
@@ -119,7 +119,7 @@ export function BackgroundPaths({
                         <Button
                             asChild
                             variant="ghost"
-                            className="rounded-[1.15rem] px-8 py-6 text-lg font-semibold backdrop-blur-md 
+                            className="rounded-[1.15rem] px-8 py-6 text-sm font-mono font-semibold tracking-widest uppercase backdrop-blur-md 
                             bg-white/95 hover:bg-white/100 dark:bg-black/95 dark:hover:bg-black/100 
                             text-black dark:text-white transition-all duration-300 
                             group-hover:-translate-y-0.5 border border-black/10 dark:border-white/10
@@ -127,7 +127,7 @@ export function BackgroundPaths({
                         >
                             <a href="#projects">
                                 <span className="opacity-90 group-hover:opacity-100 transition-opacity">
-                                    View My Work
+                                    View Work
                                 </span>
                                 <span
                                     className="ml-3 opacity-70 group-hover:opacity-100 group-hover:translate-x-1.5 
@@ -144,9 +144,9 @@ export function BackgroundPaths({
             <motion.div 
                 animate={{ y: [0, 10, 0] }}
                 transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-                className="absolute bottom-12 left-1/2 -translate-x-1/2 text-sm font-bold tracking-widest uppercase text-neutral-400 dark:text-neutral-500 bg-white/20 dark:bg-black/20 backdrop-blur-sm px-4 py-2 rounded-full border border-neutral-200/50 dark:border-neutral-800/50"
+                className="absolute bottom-12 left-1/2 -translate-x-1/2 font-mono text-xs tracking-[0.25em] uppercase text-neutral-400 dark:text-neutral-600 px-4 py-2"
             >
-                ↓ Scroll Down
+                scroll ↓
             </motion.div>
         </div>
     );

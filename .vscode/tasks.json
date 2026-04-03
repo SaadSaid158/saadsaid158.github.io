@@ -1,0 +1,17 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Dev Server",
+			"type": "shell",
+			"command": "npm run dev",
+			"isBackground": true,
+			"problemMatcher": []
+		},
+		{
+			"label": "Git Push",
+			"type": "shell",
+			"command": "git add . && git commit -m \"feat: premium UI overhaul - royal blue theme, hex radar, floating labels, font upgrade\" && git push origin main"
+		}
+	]
+}
