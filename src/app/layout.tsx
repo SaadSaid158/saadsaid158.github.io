@@ -76,6 +76,9 @@ export const metadata: Metadata = {
   icons: {
     icon: '/favicon.ico',
   },
+  verification: {
+    google: 'JuO54Cah6-yjU9S6xevy-uDHfwbNtnR4ZCuSuG9o0Nk',
+  },
 }
 
 const jsonLd = {
