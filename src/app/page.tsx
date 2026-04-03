@@ -474,6 +474,58 @@ const ContactSection = () => {
 export default function Home() {
   return (
     <main className="min-h-screen bg-white dark:bg-neutral-950 selection:bg-[#3b5bdb]/20">
+      {/*
+        SEO content block — visually hidden, fully readable by crawlers.
+        This ensures all key text is present in the static HTML served to
+        Googlebot before JS hydration.
+      */}
+      <div className="sr-only" aria-hidden="true">
+        <h1>Saad Said — Security Researcher &amp; Exploit Developer</h1>
+        <p>
+          Saad Said is a 17-year-old security researcher, exploit developer, and reverse
+          engineer based in the UK. Specialising in offensive security, CVE research,
+          vulnerability research, and red teaming. Actively seeking opportunities in
+          security research and penetration testing.
+        </p>
+        <h2>About Saad Said</h2>
+        <p>
+          A-Level student in the UK with 10+ public projects on GitHub. Has researched
+          2 CVEs and builds offensive security tools in Go, C, and Rust.
+        </p>
+        <h2>Projects</h2>
+        <ul>
+          <li>
+            <strong>Fusée Gelée PoC</strong> — Go-based implementation of CVE-2018-6242,
+            a coldboot BootROM exploit targeting NVIDIA Tegra X1 chips in Nintendo Switch
+            units. Features TUI, payload management, SHA256 verification, multi-device
+            support, and JSON config. Cross-platform.
+          </li>
+          <li>
+            <strong>Chess Engine</strong> — A compact chess engine in Go with bitboard
+            board representation, iterative deepening alpha-beta search, and perft
+            validation. Two front ends: a local browser UI and UCI mode for standard
+            chess GUIs.
+          </li>
+          <li>
+            <strong>Fusée Web Injector</strong> — Browser-based payload injector for
+            Fusée Gelée using the WebUSB API — no native drivers or installs required.
+            Runs entirely client-side, in-browser.
+          </li>
+        </ul>
+        <h2>Skills &amp; Tools</h2>
+        <p>
+          Exploit Development, Reverse Engineering, Privilege Escalation, Network Analysis,
+          Malware Research, Tool Development, Go, C, Rust, Bash, Ghidra, Wireshark,
+          Metasploit, Burp Suite, Linux.
+        </p>
+        <h2>Contact</h2>
+        <p>
+          Available for collaborations, security research projects, and opportunities.
+          Contact via GitHub at github.com/SaadSaid158 or TryHackMe at
+          tryhackme.com/p/Saad.Said158.
+        </p>
+      </div>
+
       <Navbar />
       <BackgroundPaths title="Saad Said" />
 
