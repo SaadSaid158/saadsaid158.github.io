@@ -507,9 +507,9 @@ export default function Home() {
             chess GUIs.
           </li>
           <li>
-            <strong>Fusée Web Injector</strong> — Browser-based payload injector for
-            Fusée Gelée using the WebUSB API — no native drivers or installs required.
-            Runs entirely client-side, in-browser.
+            <strong>C2 Framework</strong> — A modular red team command-and-control
+            framework. Cross-platform C implants (Windows + Linux) with a Go teamserver,
+            multi-operator CLI, OTA update system, and a production build pipeline.
           </li>
         </ul>
         <h2>Skills &amp; Tools</h2>
