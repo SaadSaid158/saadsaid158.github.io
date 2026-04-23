@@ -239,10 +239,10 @@ const projects = [
     url: "https://github.com/SaadSaid158/chess-engine",
   },
   {
-    title: "Fusée Web Injector",
-    desc: "Browser-based payload injector for Fusée Gelée using the WebUSB API — no native drivers or installs required. Runs entirely client-side, in-browser.",
-    tags: ["JavaScript", "WebUSB", "Exploit", "Browser"],
-    url: "https://github.com/SaadSaid158/fusee-web-injector",
+    title: "C2 Framework",
+    desc: "A modular red team command-and-control framework. Cross-platform C implants (Windows + Linux) with a Go teamserver, multi-operator CLI, OTA update system, and a production build pipeline.",
+    tags: ["C", "Go", "Red Team", "Malware Dev"],
+    url: "https://github.com/SaadSaid158/C2-Framework",
   },
 ]
 
