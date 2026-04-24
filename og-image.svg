@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a0a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#111827;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#3b5bdb;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6b8cff;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)" />
+  <!-- Subtle grid lines -->
+  <line x1="0" y1="315" x2="1200" y2="315" stroke="#ffffff" stroke-opacity="0.03" stroke-width="1"/>
+  <line x1="600" y1="0" x2="600" y2="630" stroke="#ffffff" stroke-opacity="0.03" stroke-width="1"/>
+  <!-- Royal blue accent bar -->
+  <rect x="80" y="260" width="6" height="110" rx="3" fill="url(#accent)" />
+  <!-- Name -->
+  <text x="116" y="310" font-family="system-ui, -apple-system, sans-serif" font-size="72" font-weight="700" fill="white" letter-spacing="-2">Saad Said</text>
+  <!-- Role -->
+  <text x="116" y="358" font-family="monospace, Courier New" font-size="22" fill="#6b8cff" letter-spacing="4" text-transform="uppercase">SECURITY RESEARCHER · EXPLOIT DEVELOPER</text>
+  <!-- Tech tags -->
+  <text x="116" y="410" font-family="monospace, Courier New" font-size="16" fill="#6b7280" letter-spacing="2">Go · C · Rust · Ghidra · Metasploit · Burp Suite · Linux</text>
+  <!-- Bottom URL -->
+  <text x="116" y="550" font-family="monospace, Courier New" font-size="16" fill="#374151" letter-spacing="1">saadsaid158.github.io</text>
+  <!-- Decorative corner element -->
+  <circle cx="1100" cy="130" r="180" fill="#3b5bdb" fill-opacity="0.04" />
+  <circle cx="1100" cy="130" r="120" fill="#3b5bdb" fill-opacity="0.04" />
+</svg>
