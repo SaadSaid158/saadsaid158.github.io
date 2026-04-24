@@ -68,7 +68,7 @@ export default function FooterSection() {
                 </div>
                 <div className="mb-12 flex flex-wrap justify-center gap-6 text-sm">
                     <Link
-                        href="/"
+                        href="#home"
                         aria-label="Portfolio"
                         className="text-neutral-500 hover:text-[#3b5bdb] dark:text-neutral-400 dark:hover:text-[#6b8cff] transition-colors block">
                         <Globe className="size-6" /> 

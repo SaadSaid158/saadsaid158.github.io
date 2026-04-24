@@ -18,7 +18,9 @@ function polarToCart(cx: number, cy: number, r: number, angleDeg: number) {
   return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
 }
 
-export function HexRadar({ skills, size = 340 }: HexRadarProps) {
+export function HexRadar({ skills, size: sizeProp }: HexRadarProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [size, setSize] = useState(sizeProp ?? 340);
   const cx = size / 2;
   const cy = size / 2;
   const maxR = size * 0.36;
@@ -26,6 +28,19 @@ export function HexRadar({ skills, size = 340 }: HexRadarProps) {
   const rings = [0.25, 0.5, 0.75, 1];
   const ref = useRef<SVGSVGElement>(null);
   const [inView, setInView] = useState(false);
+
+  // Auto-size based on container width (responsive on mobile)
+  useEffect(() => {
+    if (sizeProp) return;
+    const el = containerRef.current;
+    if (!el) return;
+    const obs = new ResizeObserver(([entry]) => {
+      const w = entry.contentRect.width;
+      setSize(Math.min(340, Math.max(200, w - 48)));
+    });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [sizeProp]);
 
   useEffect(() => {
     const el = ref.current;
@@ -86,6 +101,7 @@ export function HexRadar({ skills, size = 340 }: HexRadarProps) {
   });
 
   return (
+    <div ref={containerRef} className="w-full flex justify-center">
     <svg
       ref={ref}
       viewBox={`0 0 ${size} ${size}`}
@@ -184,5 +200,6 @@ export function HexRadar({ skills, size = 340 }: HexRadarProps) {
         </motion.text>
       ))}
     </svg>
+    </div>
   );
 }

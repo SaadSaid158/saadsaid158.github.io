@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Menu, X, ArrowUpRight } from "lucide-react"
+import { Menu, X, ArrowUpRight, ChevronUp } from "lucide-react"
 
 import SkyToggle from "@/components/ui/sky-toggle"
 import { MenuVertical } from "@/components/ui/menu-vertical"
@@ -12,7 +12,41 @@ import { StarButton } from "@/components/ui/star-button"
 import FooterSection from "@/components/ui/footer"
 import { HexRadar } from "@/components/ui/hex-radar"
 
-// ─── Navbar ──────────────────────────────────────────────────────────────────
+// ─── Scroll To Top ────────────────────────────────────────────────────────────
+
+const ScrollToTop = () => {
+  const [visible, setVisible] = useState(false)
+  useEffect(() => {
+    const onScroll = () => setVisible(window.scrollY > 400)
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
+  return (
+    <AnimatePresence>
+      {visible && (
+        <motion.button
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.8 }}
+          transition={{ duration: 0.2 }}
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          className="fixed bottom-8 right-8 z-50 p-3 rounded-full
+            bg-white dark:bg-neutral-900
+            border border-neutral-200 dark:border-neutral-800
+            shadow-lg hover:shadow-xl
+            hover:border-[#3b5bdb]/40 dark:hover:border-[#3b5bdb]/40
+            text-neutral-500 dark:text-neutral-400 hover:text-[#3b5bdb] dark:hover:text-[#6b8cff]
+            transition-all duration-200"
+          aria-label="Scroll to top"
+        >
+          <ChevronUp className="size-4" />
+        </motion.button>
+      )}
+    </AnimatePresence>
+  )
+}
+
+// ─── Navbar ───────────────────────────────────────────────────────────────────
 
 const navItems = [
   { label: "Home", href: "#home" },
@@ -246,14 +280,50 @@ const projects = [
   },
 ]
 
-const ProjectsSection = () => (
+const ProjectsSection = () => {
+  const [activeTag, setActiveTag] = useState<string | null>(null)
+  const allTags = Array.from(new Set(projects.flatMap((p) => p.tags)))
+  const filtered = activeTag ? projects.filter((p) => p.tags.includes(activeTag)) : projects
+
+  return (
   <section id="projects" className="py-24 max-w-6xl mx-auto px-6">
     <SectionTitle>Projects</SectionTitle>
+
+    {/* Tag filter pills */}
+    <div className="flex flex-wrap gap-2 mb-10">
+      <button
+        onClick={() => setActiveTag(null)}
+        className={`px-3 py-1 rounded-full text-xs font-mono font-medium border transition-all duration-200 ${
+          !activeTag
+            ? "bg-[#3b5bdb] border-[#3b5bdb] text-white"
+            : "border-neutral-200 dark:border-neutral-700 text-neutral-500 dark:text-neutral-400 hover:border-[#3b5bdb]/50 hover:text-[#3b5bdb]"
+        }`}
+      >
+        All
+      </button>
+      {allTags.map((tag) => (
+        <button
+          key={tag}
+          onClick={() => setActiveTag(activeTag === tag ? null : tag)}
+          className={`px-3 py-1 rounded-full text-xs font-mono font-medium border transition-all duration-200 ${
+            activeTag === tag
+              ? "bg-[#3b5bdb] border-[#3b5bdb] text-white"
+              : "border-neutral-200 dark:border-neutral-700 text-neutral-500 dark:text-neutral-400 hover:border-[#3b5bdb]/50 hover:text-[#3b5bdb]"
+          }`}
+        >
+          {tag}
+        </button>
+      ))}
+    </div>
+
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-      {projects.map((proj, idx) => (
+      {filtered.map((proj, idx) => (
         <motion.div
-          key={idx}
+          key={proj.title}
+          layout
           initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.45, delay: idx * 0.1 }}
@@ -284,29 +354,42 @@ const ProjectsSection = () => (
               </a>
             </div>
 
-            <p className="text-neutral-500 dark:text-neutral-400 text-sm flex-grow leading-relaxed mb-6">
+            <p className="text-neutral-500 dark:text-neutral-400 text-sm flex-grow leading-relaxed mb-5">
               {proj.desc}
             </p>
 
-            <div className="flex flex-wrap gap-1.5">
+            <div className="flex flex-wrap gap-1.5 mb-5">
               {proj.tags.map((tag) => (
-                <span
+                <button
                   key={tag}
-                  className="px-2 py-0.5 rounded-md font-mono text-[0.7rem] font-medium
-                    bg-neutral-100 dark:bg-neutral-800/80
-                    text-neutral-600 dark:text-neutral-400
-                    border border-neutral-200 dark:border-neutral-700/50"
+                  onClick={() => setActiveTag(activeTag === tag ? null : tag)}
+                  className={`px-2 py-0.5 rounded-md font-mono text-[0.7rem] font-medium border transition-all duration-150 cursor-pointer
+                    ${activeTag === tag
+                      ? "bg-[#3b5bdb]/10 border-[#3b5bdb]/40 text-[#3b5bdb]"
+                      : "bg-neutral-100 dark:bg-neutral-800/80 text-neutral-600 dark:text-neutral-400 border-neutral-200 dark:border-neutral-700/50 hover:border-[#3b5bdb]/30"
+                    }`}
                 >
                   {tag}
-                </span>
+                </button>
               ))}
             </div>
+
+            <a
+              href={proj.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-neutral-400 dark:text-neutral-500 hover:text-[#3b5bdb] dark:hover:text-[#6b8cff] transition-colors duration-150 group/link"
+            >
+              <span>View on GitHub</span>
+              <ArrowUpRight className="size-3 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform duration-150" />
+            </a>
           </div>
         </motion.div>
       ))}
     </div>
   </section>
-)
+  )
+}
 
 // ─── Skills ───────────────────────────────────────────────────────────────────
 
@@ -552,6 +635,7 @@ export default function Home() {
 
       <ContactSection />
       <FooterSection />
+      <ScrollToTop />
     </main>
   )
 }

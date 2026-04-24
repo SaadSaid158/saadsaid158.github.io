@@ -158,6 +158,14 @@ export default function RootLayout({
         <meta name="google-site-verification" content="JuO54Cah6-yjU9S6xevy-uDHfwbNtnR4ZCuSuG9o0Nk" />
       </head>
       <body className={GeistSans.className}>
+        <noscript>
+          <style>{`[data-framer-motion]{opacity:1!important;transform:none!important}`}</style>
+          <div style={{fontFamily:'sans-serif',maxWidth:800,margin:'40px auto',padding:'0 20px'}}>
+            <h1>Saad Said — Security Researcher &amp; Exploit Developer</h1>
+            <p>A 17-year-old security researcher, exploit developer, and reverse engineer based in the UK. Specialising in offensive security, CVE research, Go, C, and Rust.</p>
+            <p>View projects and contact information at <a href="https://saadsaid158.github.io">saadsaid158.github.io</a>. JavaScript is required for the full interactive experience.</p>
+          </div>
+        </noscript>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

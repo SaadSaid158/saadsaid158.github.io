@@ -1,9 +1,12 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 
-function FloatingPaths({ position }: { position: number }) {
+// Static durations — avoids Math.random() hydration mismatch
+const PATH_DURATIONS = Array.from({ length: 36 }, (_, i) => 20 + (i % 8) * 1.8)
+
+function FloatingPaths({ position, reduced }: { position: number; reduced: boolean }) {
     const paths = Array.from({ length: 36 }, (_, i) => ({
         id: i,
         d: `M-${380 - i * 5 * position} -${189 + i * 6}C-${
@@ -35,12 +38,12 @@ function FloatingPaths({ position }: { position: number }) {
                         strokeLinejoin="round"
                         strokeOpacity={0.1 + path.id * 0.03}
                         initial={{ pathLength: 0.3, opacity: 0 }}
-                        animate={{
+                    animate={reduced ? { opacity: 0.15 } : {
                             pathOffset: [0, 1, 0],
                             opacity: [0.2, 0.8, 0.2],
                         }}
                         transition={{
-                            duration: 20 + Math.random() * 15,
+                            duration: PATH_DURATIONS[path.id],
                             repeat: Number.POSITIVE_INFINITY,
                             ease: "linear",
                         }}
@@ -57,12 +60,13 @@ export function BackgroundPaths({
     title?: string;
 }) {
     const words = title.split(" ");
+    const reduced = !!useReducedMotion();
 
     return (
         <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-white dark:bg-neutral-950 pb-20" id="home">
             <div className="absolute inset-0">
-                <FloatingPaths position={1} />
-                <FloatingPaths position={-1} />
+                <FloatingPaths position={1} reduced={reduced} />
+                <FloatingPaths position={-1} reduced={reduced} />
             </div>
 
             <div className="relative z-10 container mx-auto px-4 md:px-6 text-center">
@@ -105,10 +109,19 @@ export function BackgroundPaths({
                     <motion.p 
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.6, duration: 0.6 }}
+                        className="font-mono text-[0.68rem] tracking-[0.2em] text-neutral-400 dark:text-neutral-600 mb-4 uppercase"
+                    >
+                        @saadsaid158
+                    </motion.p>
+
+                    <motion.p 
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 1, duration: 0.8 }}
                         className="font-mono text-xs md:text-sm tracking-[0.22em] text-neutral-600 dark:text-neutral-400 mb-10 uppercase px-5 py-2.5 rounded-full bg-white/60 dark:bg-neutral-950/60 backdrop-blur-md border border-neutral-200/50 dark:border-neutral-800/50"
                     >
-                        Security Researcher &nbsp;·&nbsp; Exploit Dev &nbsp;·&nbsp; Go / C / Python
+                        Security Researcher &nbsp;·&nbsp; Exploit Dev &nbsp;·&nbsp; Go / C / Rust
                     </motion.p>
 
                     <div

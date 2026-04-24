@@ -161,3 +161,13 @@
   height: 5rem;
   pointer-events: none;
 }
+
+/* Respect reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .animate-star-btn {
+    animation: none !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
