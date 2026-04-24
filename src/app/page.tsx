@@ -12,6 +12,63 @@ import { StarButton } from "@/components/ui/star-button"
 import FooterSection from "@/components/ui/footer"
 import { HexRadar } from "@/components/ui/hex-radar"
 
+// ─── Count-Up Hook ────────────────────────────────────────────────────────────
+
+function useCountUp(target: number, duration = 1200) {
+  const [count, setCount] = useState(0)
+  const [started, setStarted] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setStarted(true) }, { threshold: 0.5 })
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [])
+
+  useEffect(() => {
+    if (!started || target === 0) return
+    const steps = 40
+    const stepTime = duration / steps
+    const increment = target / steps
+    let current = 0
+    const timer = setInterval(() => {
+      current += increment
+      if (current >= target) { setCount(target); clearInterval(timer) }
+      else setCount(Math.floor(current))
+    }, stepTime)
+    return () => clearInterval(timer)
+  }, [started, target, duration])
+
+  return { count, ref }
+}
+
+const StatCard = ({ value, label, i }: { value: string; label: string; i: number }) => {
+  const numericMatch = value.match(/^(\d+)(.*)$/)
+  const numeric = numericMatch ? parseInt(numericMatch[1]) : null
+  const suffix = numericMatch ? numericMatch[2] : ""
+  const { count, ref } = useCountUp(numeric ?? 0)
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 12 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.4, delay: 0.2 + i * 0.08 }}
+      className="rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900/40 p-5"
+    >
+      <p className="font-mono text-2xl font-bold text-neutral-900 dark:text-white tracking-tight">
+        {numeric !== null ? `${count}${suffix}` : value}
+      </p>
+      <p className="mt-1 text-xs text-neutral-500 dark:text-neutral-500 uppercase tracking-widest font-medium">
+        {label}
+      </p>
+    </motion.div>
+  )
+}
+
 // ─── Scroll To Top ────────────────────────────────────────────────────────────
 
 const ScrollToTop = () => {
@@ -171,8 +228,11 @@ const Navbar = () => {
 
 // ─── Section Title ────────────────────────────────────────────────────────────
 
-const SectionTitle = ({ children }: { children: React.ReactNode }) => (
+const SectionTitle = ({ children, num }: { children: React.ReactNode; num?: string }) => (
   <div className="mb-14">
+    {num && (
+      <p className="font-mono text-[0.68rem] text-[#3b5bdb]/70 tracking-[0.25em] mb-2 uppercase">{num}</p>
+    )}
     <h2 className="text-4xl md:text-5xl font-bold tracking-tight leading-[1.1]">
       {children}
     </h2>
@@ -189,52 +249,99 @@ const stats = [
   { value: "A-Level", label: "UK student" },
 ]
 
+const scanLines = [
+  { prefix: "[*]", label: "target",    value: "saadsaid158"                          },
+  { prefix: "[*]", label: "location",  value: "United Kingdom"                       },
+  { prefix: "[*]", label: "age",       value: "17"                                   },
+  { prefix: "[+]", label: "role",      value: "security researcher / exploit dev"    },
+  { prefix: "[+]", label: "languages", value: "Go (primary)  ·  C  ·  Rust  ·  Bash"},
+  { prefix: "[+]", label: "focus",     value: "offensive security · red team · malware research" },
+  { prefix: "[+]", label: "tools",     value: "Ghidra · Metasploit · Burp Suite · Wireshark" },
+  { prefix: "[+]", label: "status",    value: "open to opportunities"                },
+]
+
+const ScanOutput = () => {
+  const ref = useRef<HTMLDivElement>(null)
+  const [visibleCount, setVisibleCount] = useState(0)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) {
+        let i = 0
+        const tick = setInterval(() => {
+          i++
+          setVisibleCount(i)
+          if (i >= scanLines.length) clearInterval(tick)
+        }, 90)
+      }
+    }, { threshold: 0.3 })
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [])
+
+  return (
+    <div
+      ref={ref}
+      className="rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-950 overflow-hidden mb-14 font-mono text-sm"
+    >
+      {/* bar */}
+      <div className="flex items-center justify-between px-4 py-2.5 border-b border-neutral-800 bg-neutral-900">
+        <div className="flex items-center gap-1.5">
+          <span className="size-2.5 rounded-full bg-neutral-700" />
+          <span className="size-2.5 rounded-full bg-neutral-700" />
+          <span className="size-2.5 rounded-full bg-neutral-700" />
+        </div>
+        <span className="text-[0.65rem] text-neutral-500 tracking-widest">profile --target saadsaid158</span>
+        <span className="text-[0.65rem] text-neutral-600">zsh</span>
+      </div>
+
+      {/* output */}
+      <div className="p-5 space-y-1.5">
+        <p className="text-neutral-500 text-xs mb-3">
+          <span className="text-[#3b5bdb]">❯</span> ./recon.sh --profile saadsaid158
+        </p>
+        {scanLines.map((line, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, x: -8 }}
+            animate={visibleCount > i ? { opacity: 1, x: 0 } : { opacity: 0, x: -8 }}
+            transition={{ duration: 0.2 }}
+            className="flex gap-3 items-baseline"
+          >
+            <span className={`shrink-0 text-xs font-bold ${line.prefix === "[+]" ? "text-emerald-400" : "text-[#3b5bdb]"}`}>
+              {line.prefix}
+            </span>
+            <span className="text-neutral-500 text-xs w-20 shrink-0">{line.label}</span>
+            <span className="text-neutral-200 text-xs">{line.value}</span>
+          </motion.div>
+        ))}
+        {visibleCount >= scanLines.length && (
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="text-emerald-400 text-xs pt-2"
+          >
+            [✓] scan complete
+          </motion.p>
+        )}
+      </div>
+    </div>
+  )
+}
+
 const AboutSection = () => (
   <section id="about" className="py-24 max-w-6xl mx-auto px-6 pt-36">
-    <SectionTitle>About</SectionTitle>
+    <SectionTitle num="// 01.">About</SectionTitle>
 
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 text-[1.05rem] leading-[1.8] text-neutral-600 dark:text-neutral-300 mb-14">
-      <motion.p
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.55 }}
-      >
-        I&apos;m Saad, a 17-year-old security researcher and A Level student based in
-        the UK. Passionate about low-level systems, offensive security, and building
-        tools that push the boundaries of what&apos;s possible.
-      </motion.p>
-      <motion.p
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.55, delay: 0.12 }}
-      >
-        I specialise in exploit development, reverse engineering, and malware
-        research — primarily in Go, C, and Python. Actively seeking to contribute to
-        the security community and explore opportunities in red teaming and
-        vulnerability research.
-      </motion.p>
-    </div>
+    <ScanOutput />
 
     {/* Stats row */}
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
       {stats.map((s, i) => (
-        <motion.div
-          key={i}
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4, delay: 0.2 + i * 0.08 }}
-          className="rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900/40 p-5"
-        >
-          <p className="font-mono text-2xl font-bold text-neutral-900 dark:text-white tracking-tight">
-            {s.value}
-          </p>
-          <p className="mt-1 text-xs text-neutral-500 dark:text-neutral-500 uppercase tracking-widest font-medium">
-            {s.label}
-          </p>
-        </motion.div>
+        <StatCard key={s.label} value={s.value} label={s.label} i={i} />
       ))}
     </div>
 
@@ -267,16 +374,22 @@ const projects = [
     url: "https://github.com/SaadSaid158/fusee-gelee-poc",
   },
   {
-    title: "Chess Engine",
-    desc: "A compact chess engine in Go with bitboard board representation, iterative deepening alpha-beta search, and perft validation. Two front ends: a local browser UI and UCI mode for standard chess GUIs.",
-    tags: ["Go", "Algorithms", "UCI", "Chess"],
-    url: "https://github.com/SaadSaid158/chess-engine",
-  },
-  {
     title: "C2 Framework",
     desc: "A modular red team command-and-control framework. Cross-platform C implants (Windows + Linux) with a Go teamserver, multi-operator CLI, OTA update system, and a production build pipeline.",
     tags: ["C", "Go", "Red Team", "Malware Dev"],
     url: "https://github.com/SaadSaid158/C2-Framework",
+  },
+  {
+    title: "Passman",
+    desc: "Offline-first secret manager using AES-256-GCM and Argon2id for hardened key derivation. Implements fully encrypted vaults for credentials, TOTP secrets, and files with integrity checks and zero network surface.",
+    tags: ["Go", "Cryptography", "CLI", "Security"],
+    url: "https://github.com/SaadSaid158/Passman",
+  },
+  {
+    title: "Chess Engine",
+    desc: "A compact chess engine in Go with bitboard board representation, iterative deepening alpha-beta search, and perft validation. Two front ends: a local browser UI and UCI mode for standard chess GUIs.",
+    tags: ["Go", "Algorithms", "UCI", "Chess"],
+    url: "https://github.com/SaadSaid158/chess-engine",
   },
 ]
 
@@ -287,7 +400,7 @@ const ProjectsSection = () => {
 
   return (
   <section id="projects" className="py-24 max-w-6xl mx-auto px-6">
-    <SectionTitle>Projects</SectionTitle>
+    <SectionTitle num="// 02.">Projects</SectionTitle>
 
     {/* Tag filter pills */}
     <div className="flex flex-wrap gap-2 mb-10">
@@ -316,7 +429,7 @@ const ProjectsSection = () => {
       ))}
     </div>
 
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
       {filtered.map((proj, idx) => (
         <motion.div
           key={proj.title}
@@ -416,7 +529,7 @@ const techStack = [
 
 const SkillsSection = () => (
   <section id="skills" className="py-24 max-w-6xl mx-auto px-6">
-    <SectionTitle>Skills</SectionTitle>
+    <SectionTitle num="// 03.">Skills</SectionTitle>
 
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
       {/* Radar chart */}
@@ -482,7 +595,7 @@ const ContactSection = () => {
 
   return (
     <section id="contact" className="py-24 max-w-2xl mx-auto px-6">
-      <SectionTitle>Contact</SectionTitle>
+      <SectionTitle num="// 04.">Contact</SectionTitle>
       <p className="text-neutral-500 dark:text-neutral-400 mb-10 leading-relaxed">
         Open to collaborations, research projects, and opportunities.
       </p>
@@ -582,6 +695,12 @@ export default function Home() {
             a coldboot BootROM exploit targeting NVIDIA Tegra X1 chips in Nintendo Switch
             units. Features TUI, payload management, SHA256 verification, multi-device
             support, and JSON config. Cross-platform.
+          </li>
+          <li>
+            <strong>Passman</strong> — Offline-first secret manager using AES-256-GCM
+            and Argon2id for hardened key derivation. Implements fully encrypted vaults
+            for credentials, TOTP secrets, and files with integrity checks and zero
+            network surface.
           </li>
           <li>
             <strong>Chess Engine</strong> — A compact chess engine in Go with bitboard

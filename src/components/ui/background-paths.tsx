@@ -1,10 +1,45 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 
 // Static durations — avoids Math.random() hydration mismatch
 const PATH_DURATIONS = Array.from({ length: 36 }, (_, i) => 20 + (i % 8) * 1.8)
+
+// ─── Cycling Role Badge ───────────────────────────────────────────────────────
+const ROLES = [
+  "Security Researcher",
+  "Exploit Developer",
+  "Reverse Engineer",
+  "Red Teamer",
+  "Tool Builder",
+]
+
+function CyclingRole() {
+  const [idx, setIdx] = useState(0)
+  const [visible, setVisible] = useState(true)
+
+  useEffect(() => {
+    const cycle = setInterval(() => {
+      setVisible(false)
+      setTimeout(() => {
+        setIdx((i) => (i + 1) % ROLES.length)
+        setVisible(true)
+      }, 350)
+    }, 2200)
+    return () => clearInterval(cycle)
+  }, [])
+
+  return (
+    <span
+      style={{ transition: "opacity 0.35s ease", opacity: visible ? 1 : 0 }}
+      className="inline-block"
+    >
+      {ROLES[idx]}
+    </span>
+  )
+}
 
 function FloatingPaths({ position, reduced }: { position: number; reduced: boolean }) {
     const paths = Array.from({ length: 36 }, (_, i) => ({
@@ -109,19 +144,10 @@ export function BackgroundPaths({
                     <motion.p 
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.6, duration: 0.6 }}
-                        className="font-mono text-[0.68rem] tracking-[0.2em] text-neutral-400 dark:text-neutral-600 mb-4 uppercase"
-                    >
-                        @saadsaid158
-                    </motion.p>
-
-                    <motion.p 
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 1, duration: 0.8 }}
                         className="font-mono text-xs md:text-sm tracking-[0.22em] text-neutral-600 dark:text-neutral-400 mb-10 uppercase px-5 py-2.5 rounded-full bg-white/60 dark:bg-neutral-950/60 backdrop-blur-md border border-neutral-200/50 dark:border-neutral-800/50"
                     >
-                        Security Researcher &nbsp;·&nbsp; Exploit Dev &nbsp;·&nbsp; Go / C / Rust
+                        <CyclingRole />&nbsp;&nbsp;·&nbsp;&nbsp;Go / C / Rust
                     </motion.p>
 
                     <div
