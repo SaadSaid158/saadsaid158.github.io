@@ -9,7 +9,7 @@ const siteUrl = 'https://saadsaid158.github.io'
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: 'Saad Said | Security Researcher & Exploit Developer',
+    default: 'Saad Said (saadsaid158) | Security Researcher & Exploit Developer',
     template: '%s | Saad Said',
   },
   description:
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
     locale: 'en_GB',
     url: siteUrl,
     siteName: 'Saad Said',
-    title: 'Saad Said | Security Researcher & Exploit Developer',
+    title: 'Saad Said (saadsaid158) | Security Researcher & Exploit Developer',
     description:
       'Portfolio of Saad Said (saadsaid158) — security researcher, exploit developer, and reverse engineer from the UK. 10+ public projects, CVE research, Go · C · Rust.',
     images: [
@@ -72,7 +72,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Saad Said | Security Researcher & Exploit Developer',
+    title: 'Saad Said (saadsaid158) | Security Researcher & Exploit Developer',
     description:
       'Portfolio of Saad Said (saadsaid158) — security researcher, exploit developer, and reverse engineer from the UK.',
     images: ['/og-image.svg'],
@@ -147,6 +147,20 @@ const jsonLd = {
   },
 }
 
+const websiteLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Saad Said — saadsaid158',
+  alternateName: 'saadsaid158',
+  url: siteUrl,
+  author: {
+    '@type': 'Person',
+    name: 'Saad Said',
+    alternateName: 'saadsaid158',
+  },
+  description: 'Portfolio of Saad Said (saadsaid158) — security researcher and exploit developer from the UK.',
+}
+
 export default function RootLayout({
   children,
 }: {
@@ -156,6 +170,10 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning className={`scroll-smooth ${GeistSans.variable} ${GeistMono.variable}`}>
       <head>
         <meta name="google-site-verification" content="JuO54Cah6-yjU9S6xevy-uDHfwbNtnR4ZCuSuG9o0Nk" />
+        <meta name="author" content="Saad Said" />
+        <meta name="nickname" content="saadsaid158" />
+        <link rel="me" href="https://github.com/SaadSaid158" />
+        <link rel="me" href="https://tryhackme.com/p/Saad.Said158" />
       </head>
       <body className={GeistSans.className}>
         <noscript>
@@ -169,6 +187,10 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteLd) }}
         />
         <ThemeProvider
           attribute="class"

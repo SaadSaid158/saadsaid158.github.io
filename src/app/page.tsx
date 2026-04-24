@@ -676,9 +676,9 @@ export default function Home() {
         Googlebot before JS hydration.
       */}
       <div className="sr-only" aria-hidden="true">
-        <h1>Saad Said — Security Researcher &amp; Exploit Developer</h1>
+        <h1>Saad Said (saadsaid158) — Security Researcher &amp; Exploit Developer</h1>
         <p>
-          Saad Said is a 17-year-old security researcher, exploit developer, and reverse
+          Saad Said, also known as saadsaid158, is a 17-year-old security researcher, exploit developer, and reverse
           engineer based in the UK. Specialising in offensive security, CVE research,
           vulnerability research, and red teaming. Actively seeking opportunities in
           security research and penetration testing.
